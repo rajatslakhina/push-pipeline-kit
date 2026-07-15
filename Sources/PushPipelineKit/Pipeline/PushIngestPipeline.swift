@@ -55,9 +55,13 @@ public struct PipelineStats: Sendable, Equatable {
 ///    consequence, not an *arrival* consequence.
 ///
 /// ## Concurrency
-/// The pipeline is an actor: `ingest(_:)` calls are processed one at a time
-/// in call order, so dedup/classification decisions are serialized and the
-/// audit trail reflects the true processing order.
+/// The pipeline is an actor, but like any actor it is *reentrant at its
+/// suspension points*: overlapping `ingest(_:)` calls may interleave at the
+/// `await`s into the deduplicator and classifier. That interleaving is safe
+/// by construction — each stage is serialized by its own owning actor, and
+/// every counter/audit mutation here happens on a synchronous (suspension-
+/// free) slice of this actor — so decisions are race-free and
+/// `recentOutcomes()` reflects completion order.
 public actor PushIngestPipeline {
     private let deduplicator: NotificationDeduplicator
     private let classifier: InterruptionClassifier

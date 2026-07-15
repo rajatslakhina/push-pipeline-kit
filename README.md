@@ -83,7 +83,7 @@ if directive == .requestFreshToken { /* re-register with the OS */ }
 
 ## Demo app
 
-Demo app: (added after the companion repo is pushed — see below)
+**[push-pipeline-kit-demo-app](https://github.com/rajatslakhina/push-pipeline-kit-demo-app)** — a SwiftUI console that consumes this package as a **remote** SPM dependency (by this repo's GitHub URL, not a local path) and turns every failure mode into a button: duplicate bursts, stale arrivals, time-sensitive floods, token rotation under a failing registration server, malformed deep links, and cold-start tap replay.
 
 ## Verification (honest status)
 
